@@ -9,52 +9,39 @@ public class OrdenaStrings {
 
 	public static void main(String[] args) {
 
-		//FORMA ANTIGA
+		// FORMA ANTIGA
 		List<String> nomes = new ArrayList<String>();
-		
+
 		nomes.add("Socorro de Almeida");
 		nomes.add("Bruno Rodrigues");
 		nomes.add("Allan Gomes");
-		
-		Comparator<String> comparador = new ComparadorPorTamanho();
-//		Collections.sort(nomes, comparador); ANTIGO
-		nomes.sort(comparador);
+
 		System.out.println(nomes);
 		
-//		ANTIGO
-//		for (String n : nomes) {
-//			System.out.println(n);
-//		}
+		//O Lambda pode ser convertido para uma Interface Funcional
+		//Lambda - Interface Funcional quando temos apenas um método
+//		nomes.sort((n1, n2) -> {
+//				if (n1.length() < n2.length())
+//					return -1;
+//				if (n1.length() > n2.length())
+//					return 1;
+//				return 0;
+//		});
+		
+		nomes.sort((n1, n2) -> Integer.compare(n1.length(),n2.length()));
+		
+		System.out.println(nomes);
+
+//		Consumer<String> impressor = s -> System.out.println(s);
+//		nomes.forEach(impressor);
+		
+		// Classe anônima
+		// Quando temos uma interface onde só tem um método que está sendo implementado
+		// Utilizamos Lambda
+		nomes.forEach(s -> System.out.println(s));
 		
 		
-		//Consumidor, nova forma de iterar uma coleção
-		Consumer<String> consumidor = new ImprimeNaLinha();
-		nomes.forEach(consumidor);
-		
+
 	}
 
-}
-
-class ImprimeNaLinha implements Consumer<String>{
-
-	@Override
-	public void accept(String s) {
-
-		System.out.println(s);
-	}
-	
-}
-
-//ANTIGO
-class ComparadorPorTamanho implements Comparator<String>{
-
-	@Override
-	public int compare(String n1, String n2) {
-		if(n1.length() < n2.length())
-			return -1;
-		if(n1.length() > n2.length())
-			return 1;
-		return 0;
-	}
-	
 }
