@@ -3,6 +3,9 @@ package java8;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class Curso {
@@ -50,6 +53,36 @@ public class ExemploCursos {
 			.map(Curso::getNome)
 			.forEach(System.out::println);
 
+//		Mais Streams, Collectors e APIs
+		
+		//Options para tratarmos o null
+		Optional<Curso> optionalcurso = cursos.stream()
+			.filter(c -> c.getAlunos() >= 100)
+			.findAny();
+		
+		Curso curso = optionalcurso.orElse(null);
+		System.out.println(curso.getNome());
+		
+		optionalcurso.ifPresent(c -> System.out.println(c.getNome()));
+		
+		//Voltar de um STREAM para uma Collection
+		List<Curso> filtrado = cursos.stream()
+			.filter(c -> c.getAlunos() >= 100)
+			.collect(Collectors.toList());
+		
+		Map<String, Integer> map = cursos.stream()
+				.filter(c -> c.getAlunos() >= 100)
+				.collect(Collectors.toMap(
+						c -> c.getNome(),
+						c -> c.getAlunos()));
+		
+		System.out.println(map);
+		
+		cursos.stream()
+				.filter(c -> c.getAlunos() >= 100)
+				.collect(Collectors.toMap(
+						c -> c.getNome(),
+						c -> c.getAlunos()))
+				.forEach((nome, alunos) -> System.out.println(nome + " tem " + alunos + " alunos"));;
 	}
-
 }
